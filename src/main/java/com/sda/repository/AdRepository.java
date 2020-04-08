@@ -45,7 +45,7 @@ public class AdRepository {
     }
 
     public List<Ad> getAll(){
-        return List.copyOf(ads);
+        return ads;
     }
     public List<Ad> getAdsByUser(User user){
         return ads.stream()

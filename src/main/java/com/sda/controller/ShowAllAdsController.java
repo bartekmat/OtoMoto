@@ -37,12 +37,12 @@ public class ShowAllAdsController extends HttpServlet {
         String sort = Optional.ofNullable(request.getParameter("sort")).orElse("---");
 
         //assigning values in case of blank input
-        if (minPriceString.isEmpty()) minPriceString = "0";
-        if (maxPriceString.isEmpty()) maxPriceString = String.valueOf(Double.MAX_VALUE);
-        if (minMileageString.isEmpty()) minMileageString = "0";
-        if (maxMileageString.isEmpty()) maxMileageString = String.valueOf(Integer.MAX_VALUE);
-        if (minYearString.isEmpty()) minYearString = "0";
-        if (maxYearString.isEmpty()) maxYearString = String.valueOf(LocalDate.now().getYear());
+        if (minPriceString.isBlank()) minPriceString = "0";
+        if (maxPriceString.isBlank()) maxPriceString = String.valueOf(Double.MAX_VALUE);
+        if (minMileageString.isBlank()) minMileageString = "0";
+        if (maxMileageString.isBlank()) maxMileageString = String.valueOf(Integer.MAX_VALUE);
+        if (minYearString.isBlank()) minYearString = "0";
+        if (maxYearString.isBlank()) maxYearString = String.valueOf(LocalDate.now().getYear());
 
         //parsing to proper format
         Double minPrice = 0d;
@@ -69,7 +69,7 @@ public class ShowAllAdsController extends HttpServlet {
         }catch (Exception e){
             e.printStackTrace();
             request.setAttribute("filterError", FILTER_ERROR_MESSAGE);
-            request.setAttribute("ads", new ArrayList<>());
+            request.setAttribute("ads", List.of());
         }
 
     //set correct view -> redirect back

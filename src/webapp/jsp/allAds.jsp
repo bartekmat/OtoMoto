@@ -30,16 +30,16 @@
                 </select><br/><br/>
             </div>
             <div class="filterColumn">
-                <span>Min price : </span><input class="filterInput" type="text" name="minPrice"/><br/><br/>
-                <span>Max price : </span><input class="filterInput" type="text" name="maxPrice"/><br/><br/>
+                <span>Min price : </span><input class="filterInput" type="text" name="minPrice" maxlength="8"/><br/><br/>
+                <span>Max price : </span><input class="filterInput" type="text" name="maxPrice" maxlength="8"/><br/><br/>
             </div>
             <div class="filterColumn">
-                <span>Min mileage : </span><input class="filterInput" type="text" name="minMileage"/><br/><br/>
-                <span>Max mileage : </span><input class="filterInput" type="text" name="maxMileage"/><br/><br/>
+                <span>Min mileage : </span><input class="filterInput" type="text" name="minMileage" maxlength="7"/><br/><br/>
+                <span>Max mileage : </span><input class="filterInput" type="text" name="maxMileage" maxlength="7"/><br/><br/>
             </div>
             <div class="filterColumn">
-                <span>Min year : </span><input class="filterInput" type="text" name="minYear"/><br/><br/>
-                <span>Max year : </span><input class="filterInput" type="text" name="maxYear"/><br/>
+                <span>Min year : </span><input class="filterInput" type="text" name="minYear" maxlength="4"/><br/><br/>
+                <span>Max year : </span><input class="filterInput" type="text" name="maxYear" maxlength="4"/><br/>
             </div>
             <br style="clear: left"/>
 

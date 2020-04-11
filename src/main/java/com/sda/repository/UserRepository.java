@@ -1,8 +1,12 @@
 package com.sda.repository;
 
 import com.sda.model.User;
+import com.sda.utils.HibernateUtil;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +37,23 @@ public class UserRepository {
             return false;
         }
         users.add(user);
-        System.out.println(users);
+
+        SessionFactory sessionFactory = HibernateUtil.getInstance();
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+        try {
+            System.out.println("Saved user "+user);
+            session.persist(user);
+            transaction.commit();
+        }catch (Exception e){
+            System.out.println("failed to save user "+user.getSurname());
+            e.printStackTrace();
+            transaction.rollback();
+        }finally {
+            session.close();
+            sessionFactory.close();
+        }
         return true;
     }
 
@@ -44,7 +64,25 @@ public class UserRepository {
                 .findAny();
         return existingUser;
     }
+
     public User getDefaultUser(){
-        return users.get(0);
+        SessionFactory sessionFactory = HibernateUtil.getInstance();
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+        User user = users.get(0);
+        try {
+            user = session.find(User.class, 1);
+            System.out.println("Found user "+ user);
+            transaction.commit();
+        }catch (Exception e){
+            System.out.println("failed to save user "+user.getSurname());
+            e.printStackTrace();
+            transaction.rollback();
+        }finally {
+            session.close();
+            sessionFactory.close();
+        }
+        return user;
     }
 }

@@ -6,7 +6,7 @@
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">Otomoto</a>
+            <a class="navbar-brand" href="/">Otomoto</a>
         </div>
         <c:if test="${sessionScope.user != null}">
             <ul class="nav navbar-nav">

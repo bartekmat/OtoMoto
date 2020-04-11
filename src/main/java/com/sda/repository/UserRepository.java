@@ -21,10 +21,10 @@ public class UserRepository {
 
     public static UserRepository getInstance(){
         if(userRepository == null){
-            userRepository = new UserRepository(new ArrayList<>());
+            userRepository = new UserRepository(getAllUsers());
             //here init -> to be removed when db is set up
             User defaultUser = new User("Tim", "Buchalka", "tim@buchalka.au", "tim");
-            userRepository.save(defaultUser);
+            //userRepository.save(defaultUser);
         }
         return userRepository;
     }
@@ -52,7 +52,6 @@ public class UserRepository {
             transaction.rollback();
         }finally {
             session.close();
-            sessionFactory.close();
         }
         return true;
     }
@@ -69,11 +68,11 @@ public class UserRepository {
         SessionFactory sessionFactory = HibernateUtil.getInstance();
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-
-        User user = users.get(0);
+        User user = new User();
         try {
-            user = session.find(User.class, 1);
-            System.out.println("Found user "+ user);
+            user = session.get(User.class, 1);
+            System.out.println("found user "+user);
+            //users.add(user);
             transaction.commit();
         }catch (Exception e){
             System.out.println("failed to save user "+user.getSurname());
@@ -81,8 +80,24 @@ public class UserRepository {
             transaction.rollback();
         }finally {
             session.close();
-            sessionFactory.close();
         }
         return user;
+    }
+    public static List<User> getAllUsers(){
+        SessionFactory sessionFactory = HibernateUtil.getInstance();
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        List<User> foundUsers = new ArrayList<>();
+        try {
+            foundUsers = (List<User>) session.createQuery("from Users").getResultList();
+            transaction.commit();
+        }catch (Exception e){
+            System.out.println("failed to load users");
+            e.printStackTrace();
+            transaction.rollback();
+        }finally {
+            session.close();
+        }
+        return foundUsers;
     }
 }

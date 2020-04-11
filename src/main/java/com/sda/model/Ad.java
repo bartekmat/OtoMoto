@@ -13,6 +13,6 @@ public class Ad {
 
     private User owner;
     private Car car;
-    private Double price;
+    private Integer price;
     private LocalDateTime createdAt;
 }

@@ -23,12 +23,12 @@ public class AdRepository {
     public static AdRepository getInstance(){
         if(adRepository == null){
             adRepository = new AdRepository(new ArrayList<>());
-            Ad ad1 = new Ad(UserRepository.getInstance().getDefaultUser(), new Car("Toyota", "Corolla", 90000, 2004), 5500.0, LocalDateTime.now());
-            Ad ad2 = new Ad(UserRepository.getInstance().getDefaultUser(), new Car("Toyota", "Auris", 45000, 2014), 7500.0, LocalDateTime.now());
-            Ad ad3 = new Ad(UserRepository.getInstance().getDefaultUser(), new Car("Honda", "Civic", 120000, 2009), 16000.0, LocalDateTime.now());
-            Ad ad4 = new Ad(UserRepository.getInstance().getDefaultUser(), new Car("Opel", "Astra", 72000, 2010), 1100.0, LocalDateTime.now());
-            Ad ad5 = new Ad(UserRepository.getInstance().getDefaultUser(), new Car("Hyundai", "i30", 50000, 2017), 45000.0, LocalDateTime.now());
-            Ad ad6 = new Ad(UserRepository.getInstance().getDefaultUser(), new Car("Honda", "Civic", 205000, 2006), 9000.0, LocalDateTime.now());
+            Ad ad1 = new Ad(UserRepository.getInstance().getDefaultUser(), new Car("Toyota", "Corolla", 90000, 2004), 5500, LocalDateTime.now());
+            Ad ad2 = new Ad(UserRepository.getInstance().getDefaultUser(), new Car("Toyota", "Auris", 45000, 2014), 7500, LocalDateTime.now());
+            Ad ad3 = new Ad(UserRepository.getInstance().getDefaultUser(), new Car("Honda", "Civic", 120000, 2009), 16000, LocalDateTime.now());
+            Ad ad4 = new Ad(UserRepository.getInstance().getDefaultUser(), new Car("Opel", "Astra", 72000, 2010), 1100, LocalDateTime.now());
+            Ad ad5 = new Ad(UserRepository.getInstance().getDefaultUser(), new Car("Hyundai", "i30", 50000, 2017), 45000, LocalDateTime.now());
+            Ad ad6 = new Ad(UserRepository.getInstance().getDefaultUser(), new Car("Honda", "Civic", 205000, 2006), 9000, LocalDateTime.now());
             adRepository.save(ad1);
             adRepository.save(ad2);
             adRepository.save(ad3);
@@ -52,8 +52,8 @@ public class AdRepository {
                 .filter(ad -> ad.getOwner().getEmail().equals(user.getEmail()))
                 .collect(Collectors.toList());
     }
-    public List<Ad> getAdsFiltered(Double minPrice,
-                                   Double maxPrice,
+    public List<Ad> getAdsFiltered(Integer minPrice,
+                                   Integer maxPrice,
                                    Integer minMileage,
                                    Integer maxMileage,
                                    Integer minYear,
@@ -101,7 +101,7 @@ public class AdRepository {
 
     }
 
-    private Stream<Ad> getAdsBetweenPrice(Stream<Ad> stream,Double min, Double max) {
+    private Stream<Ad> getAdsBetweenPrice(Stream<Ad> stream,Integer min, Integer max) {
         return stream
                 .filter(ad -> ad.getPrice()>=min)
                 .filter(ad -> ad.getPrice()<=max);

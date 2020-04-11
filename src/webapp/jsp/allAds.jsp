@@ -10,8 +10,17 @@
         <form method="get" action="/all">
             <div style="color: #df4930">
                 <c:if test="${not empty requestScope.filterError}" >
-                    ${requestScope.filterError}
+                    ${requestScope.filterError}<br/>
                 </c:if>
+                <c:if test="${not empty requestScope.priceParamError}" >
+                    ${requestScope.priceParamError}<br/>
+                </c:if>
+                <c:if test="${not empty requestScope.mileageParamError}" >
+                    ${requestScope.mileageParamError}<br/>
+                </c:if>
+                <c:if test="${not empty requestScope.yearParamError}" >
+                    ${requestScope.yearParamError}<br/>
+                </c:if><br/>
             </div>
             <div class="filterColumn">
                 <span>Producer : </span>
@@ -30,16 +39,16 @@
                 </select><br/><br/>
             </div>
             <div class="filterColumn">
-                <span>Min price : </span><input class="filterInput" type="text" name="minPrice" maxlength="8"/><br/><br/>
-                <span>Max price : </span><input class="filterInput" type="text" name="maxPrice" maxlength="8"/><br/><br/>
+                <span>Min price : </span><input class="filterInput" type="text" name="priceMin" maxlength="8"/><br/><br/>
+                <span>Max price : </span><input class="filterInput" type="text" name="priceMax" maxlength="8"/><br/><br/>
             </div>
             <div class="filterColumn">
-                <span>Min mileage : </span><input class="filterInput" type="text" name="minMileage" maxlength="7"/><br/><br/>
-                <span>Max mileage : </span><input class="filterInput" type="text" name="maxMileage" maxlength="7"/><br/><br/>
+                <span>Min mileage : </span><input class="filterInput" type="text" name="mileageMin" maxlength="7"/><br/><br/>
+                <span>Max mileage : </span><input class="filterInput" type="text" name="mileageMax" maxlength="7"/><br/><br/>
             </div>
             <div class="filterColumn">
-                <span>Min year : </span><input class="filterInput" type="text" name="minYear" maxlength="4"/><br/><br/>
-                <span>Max year : </span><input class="filterInput" type="text" name="maxYear" maxlength="4"/><br/>
+                <span>Min year : </span><input class="filterInput" type="text" name="yearMin" maxlength="4"/><br/><br/>
+                <span>Max year : </span><input class="filterInput" type="text" name="yearMax" maxlength="4"/><br/>
             </div>
             <br style="clear: left"/>
 

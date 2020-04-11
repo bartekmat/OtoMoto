@@ -47,7 +47,7 @@ public class CreateAdController extends HttpServlet {
         return Ad.builder()
                 .owner(owner)
                 .car(car)
-                .price(Double.parseDouble(price))
+                .price(Integer.parseInt(price))
                 .createdAt(LocalDateTime.now())
                 .build();
     }

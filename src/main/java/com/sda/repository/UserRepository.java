@@ -8,8 +8,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -96,7 +94,7 @@ public class UserRepository {
         Transaction transaction = session.beginTransaction();
         Optional<User> foundUser = Optional.empty();
         try {
-            foundUser = (Optional<User>) session.createQuery("from Users where email = :email and password = :pass")
+            foundUser = (Optional<User>) session.createQuery("from users where email = :email and password = :pass")
                     .setParameter("email", email)
                     .setParameter("pass", password)
                     .getResultList().stream().findFirst();
@@ -116,7 +114,7 @@ public class UserRepository {
         Transaction transaction = session.beginTransaction();
         Optional<User> foundUser = Optional.empty();
         try {
-            foundUser = (Optional<User>) session.createQuery("from Users where email = :email")
+            foundUser = (Optional<User>) session.createQuery("from users where email = :email")
                     .setParameter("email", email)
                     .getResultList().stream().findFirst();
             transaction.commit();

@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-@Entity(name = "Ads")
+@Entity(name = "ads")
 @Data
 @NoArgsConstructor
 @Builder
@@ -22,20 +22,17 @@ public class Ad {
     private Car car;
 
     private Integer price;
-    private Timestamp createdAt;
 
-    public Ad(Integer id, User user, Car car, Integer price, Timestamp createdAt) {
+    public Ad(Integer id, User user, Car car, Integer price) {
         this.id = id;
         this.user = user;
         this.car = car;
         this.price = price;
-        this.createdAt = createdAt;
     }
 
-    public Ad(User user, Car car, Integer price, Timestamp createdAt) {
+    public Ad(User user, Car car, Integer price) {
         this.user = user;
         this.car = car;
         this.price = price;
-        this.createdAt = createdAt;
     }
 }

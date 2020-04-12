@@ -1,7 +1,6 @@
 package com.sda.repository;
 
 import com.sda.model.Ad;
-import com.sda.model.Car;
 import com.sda.model.User;
 import com.sda.utils.HibernateUtil;
 import lombok.AccessLevel;
@@ -10,14 +9,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class AdRepository {
@@ -25,12 +18,10 @@ public class AdRepository {
     private static AdRepository adRepository;
 
     private UserRepository userRepository;
-    private List<Ad> ads;
-
 
     public static AdRepository getInstance(){
         if(adRepository == null){
-            adRepository = new AdRepository(UserRepository.getInstance(), new ArrayList<>());
+            adRepository = new AdRepository(UserRepository.getInstance());
 //            Ad ad1 = new Ad(UserRepository.getInstance().getUserById(1), new Car("Toyota", "Corolla", 90000, 2004), 5500, Timestamp.valueOf(LocalDateTime.now()));
 //            Ad ad2 = new Ad(UserRepository.getInstance().getUserById(1), new Car("Toyota", "Auris", 45000, 2014), 7500, Timestamp.valueOf(LocalDateTime.now()));
 //            Ad ad3 = new Ad(UserRepository.getInstance().getUserById(1), new Car("Honda", "Civic", 120000, 2009), 16000, Timestamp.valueOf(LocalDateTime.now()));
@@ -77,7 +68,7 @@ public class AdRepository {
         List<Ad> foundAds = new ArrayList<>();
         try {
             Integer userId = userRepository.getUserByEmail(user.getEmail()).get().getId();
-            foundAds = (List<Ad>) session.createQuery("from Ads where user_id = :id")
+            foundAds = (List<Ad>) session.createQuery("from ads where user_id = :id")
                     .setParameter("id", userId)
                     .getResultList();
             transaction.commit();
@@ -99,65 +90,47 @@ public class AdRepository {
                                    String company,
                                    String sort){
 
-        return getAdsOfComapny(
-                    getAdsBetweenYear(
-                            getAdsBetweenPrice(
-                                    getAdsBetweenMileage(
-                                            ads.stream(), minMileage, maxMileage)
-                                    , minPrice,maxPrice)
-                            ,minYear, maxYear),
-                    company)
-                            .collect(Collectors.toList());
-
-    }
-
-    private Stream<Ad> getAdsOfComapny(Stream<Ad> stream, String company){
-        if (company.equals("any")){
-            return stream;
+        SessionFactory sessionFactory = HibernateUtil.getInstance();
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        List<Ad> foundAds = new ArrayList<>();
+        try {
+            foundAds = (List<Ad>) session.createQuery("from ads join cars where (cars.company = :company) and" +
+                                                                "(ads.price between :priceMin and :priceMax) and " +
+                                                                "(cars.mileage between :mileageMin and :mileageMax) and " +
+                                                                "(cars.year between :yearMin and :yearMax)")
+                    .setParameter("company", company)
+                    .setParameter("priceMin", minPrice)
+                    .setParameter("priceMax", maxPrice)
+                    .setParameter("mileageMin", minMileage)
+                    .setParameter("mileageMin", maxMileage)
+                    .setParameter("yearMin", minYear)
+                    .setParameter("yearMax", maxYear)
+                    .getResultList();
+            transaction.commit();
+        }catch (Exception e){
+            e.printStackTrace();
+            transaction.rollback();
+        }finally {
+            session.close();
         }
-        return stream.filter(ad -> ad.getCar().getCompany().equals(company));
-    }
-
-    private Stream<Ad> sort(Stream<Ad> stream, String sort){
-        if (sort.equals("newest")){
-            return stream.sorted(Comparator
-                    .comparing(ad -> ad.getCar().getYear(), Comparator.reverseOrder()));
-        }
-        if (sort.equals("cheapest")){
-            return stream.sorted(Comparator
-                    .comparing(Ad::getPrice, Comparator.reverseOrder()));
-        }
-        if (sort.contains("mileage")){
-            return stream.sorted(Comparator
-                    .comparing(ad -> ad.getCar().getMileage(), Comparator.reverseOrder()));
-        }
-        if (sort.contains("recent")){
-            return stream.sorted(Comparator
-                    .comparing(Ad::getCreatedAt, Comparator.reverseOrder()));
-        }
-        return stream;
-
-    }
-
-    private Stream<Ad> getAdsBetweenPrice(Stream<Ad> stream,Integer min, Integer max) {
-        return stream
-                .filter(ad -> ad.getPrice()>=min)
-                .filter(ad -> ad.getPrice()<=max);
-    }
-
-    private Stream<Ad> getAdsBetweenMileage(Stream<Ad> stream, Integer min, Integer max) {
-        return stream
-                .filter(ad -> ad.getCar().getMileage()>=min)
-                .filter(ad -> ad.getCar().getMileage()<=max);
-    }
-
-    private Stream<Ad> getAdsBetweenYear(Stream<Ad> stream, Integer min, Integer max) {
-        return stream
-                .filter(ad -> ad.getCar().getYear()>=min)
-                .filter(ad -> ad.getCar().getYear()<=max);
+        return foundAds;
     }
 
     public List<String> getAllCompanies() {
-        return ads.stream().map(ad -> ad.getCar().getCompany()).distinct().collect(Collectors.toList());
+        SessionFactory sessionFactory = HibernateUtil.getInstance();
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        List<String> foundCompanies = new ArrayList<>();
+        try {
+            foundCompanies = (List<String>) session.createQuery("select distinct cars.company from cars").getResultList();
+            transaction.commit();
+        }catch (Exception e){
+            e.printStackTrace();
+            transaction.rollback();
+        }finally {
+            session.close();
+        }
+        return foundCompanies;
     }
 }

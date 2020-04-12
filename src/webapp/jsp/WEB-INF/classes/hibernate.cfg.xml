@@ -1,0 +1,16 @@
+<hibernate-configuration xmlns="http://www.hibernate.org/xsd/orm/cfg">
+    <session-factory>
+        <property name="hibernate.dialect"> org.hibernate.dialect.MySQL57Dialect</property>
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost/otomoto?useSSL=false&amp;characterEncoding=UTF-8 &amp;characterSetResults=UTF-8&amp;clobCharacterEncoding=UTF-8&amp; useUnicode=true&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=Europe/Warsaw</property>
+        <property name="hibernate.connection.username">user_otomoto</property>
+        <property name="hibernate.connection.password">otomoto</property>
+        <property name="hibernate.hbm2dll.auto">create</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.use_sql">true</property>
+            <mapping class="com.sda.model.Ad"/>
+            <mapping class="com.sda.model.User"/>
+            <mapping class="com.sda.model.Car"/>
+    </session-factory>
+</hibernate-configuration>

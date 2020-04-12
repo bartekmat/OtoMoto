@@ -24,7 +24,7 @@ public class AdService {
     }
 
     public void saveAd(Ad ad) {
-        adRepository.save(ad);
+        adRepository.saveAd(ad);
     }
 
     public List<Ad> getAllAdsFiltered(Integer minPrice, Integer maxPrice, Integer minMileage, Integer maxMileage, Integer minYear, Integer maxYear, String company, String sort){

@@ -23,7 +23,7 @@ public class UserService {
     }
 
     public boolean registerUser(User user){
-        return userRepository.save(user);
+        return userRepository.saveUser(user);
     }
 
     public boolean loginUser(String email, String password, HttpServletRequest request){

@@ -67,7 +67,7 @@
                         <p class="card-text">Year of production:  ${ad.car.year}</p><br/>
                     </p>
                     <p><a href="#" class="btn btn-primary" role="button"style="font-weight: bold; font-size: larger">${ad.price}$</a>
-                        <span style="margin-left: 100px;">${ad.owner.name} ${ad.owner.surname}</span></p>
+                        <span style="margin-left: 100px;">${ad.user.name} ${ad.user.surname}</span></p>
                 </div>
             </div>
         </div>

@@ -17,26 +17,18 @@ public class UserRepository {
 
     private static UserRepository userRepository;
 
-    private List<User> users;
-
     public static UserRepository getInstance(){
         if(userRepository == null){
-            userRepository = new UserRepository(getAllUsers());
-            //here init -> to be removed when db is set up
-            User defaultUser = new User("Tim", "Buchalka", "tim@buchalka.au", "tim");
-            //userRepository.save(defaultUser);
+            userRepository = new UserRepository();
         }
         return userRepository;
     }
 
-    public boolean save(User user) {
-        Optional<User> existingUser = users.stream()
-                .filter(u -> u.getEmail().equals(user.getEmail()))
-                .findAny();
-        if(existingUser.isPresent()) {
+    public boolean saveUser(User user) {
+        Optional<User> userByEmail = getUserByEmail(user.getEmail());
+        if (userByEmail.isPresent()){
             return false;
         }
-        users.add(user);
 
         SessionFactory sessionFactory = HibernateUtil.getInstance();
         Session session = sessionFactory.openSession();
@@ -50,6 +42,7 @@ public class UserRepository {
             System.out.println("failed to save user "+user.getSurname());
             e.printStackTrace();
             transaction.rollback();
+            return false;
         }finally {
             session.close();
         }
@@ -57,22 +50,16 @@ public class UserRepository {
     }
 
     public Optional<User> canLogin(String email, String password){
-        Optional<User> existingUser = users.stream()
-                .filter(u -> u.getEmail().equals(email))
-                .filter(u -> u.getPassword().equals(password))
-                .findAny();
-        return existingUser;
+        return getUserByEmailAndPass(email,password);
     }
 
-    public User getDefaultUser(){
+    public User getUserById(Integer id){
         SessionFactory sessionFactory = HibernateUtil.getInstance();
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         User user = new User();
         try {
-            user = session.get(User.class, 1);
-            System.out.println("found user "+user);
-            //users.add(user);
+            user = session.get(User.class, id);
             transaction.commit();
         }catch (Exception e){
             System.out.println("failed to save user "+user.getSurname());
@@ -83,21 +70,63 @@ public class UserRepository {
         }
         return user;
     }
-    public static List<User> getAllUsers(){
+    //THIS METHOD IS NOT USED ANYWHERE BUT I KEEP IT IN CASE IT'S NEEDED
+
+//    public static List<User> getAllUsers(){
+//        SessionFactory sessionFactory = HibernateUtil.getInstance();
+//        Session session = sessionFactory.openSession();
+//        Transaction transaction = session.beginTransaction();
+//        List<User> foundUsers = new ArrayList<>();
+//        try {
+//            foundUsers = (List<User>) session.createQuery("from Users").getResultList();
+//            transaction.commit();
+//        }catch (Exception e){
+//            System.out.println("failed to load users");
+//            e.printStackTrace();
+//            transaction.rollback();
+//        }finally {
+//            session.close();
+//        }
+//        return foundUsers;
+//    }
+
+    private Optional<User> getUserByEmailAndPass(String email, String password){
         SessionFactory sessionFactory = HibernateUtil.getInstance();
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        List<User> foundUsers = new ArrayList<>();
+        Optional<User> foundUser = Optional.empty();
         try {
-            foundUsers = (List<User>) session.createQuery("from Users").getResultList();
+            foundUser = (Optional<User>) session.createQuery("from Users where email = :email and password = :pass")
+                    .setParameter("email", email)
+                    .setParameter("pass", password)
+                    .getResultList().stream().findFirst();
             transaction.commit();
         }catch (Exception e){
-            System.out.println("failed to load users");
+            System.out.println("failed to search user by login and password");
             e.printStackTrace();
             transaction.rollback();
         }finally {
             session.close();
         }
-        return foundUsers;
+        return foundUser;
+    }
+    public Optional<User> getUserByEmail(String email){
+        SessionFactory sessionFactory = HibernateUtil.getInstance();
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        Optional<User> foundUser = Optional.empty();
+        try {
+            foundUser = (Optional<User>) session.createQuery("from Users where email = :email")
+                    .setParameter("email", email)
+                    .getResultList().stream().findFirst();
+            transaction.commit();
+        }catch (Exception e){
+            System.out.println("failed to search user by login");
+            e.printStackTrace();
+            transaction.rollback();
+        }finally {
+            session.close();
+        }
+        return foundUser;
     }
 }

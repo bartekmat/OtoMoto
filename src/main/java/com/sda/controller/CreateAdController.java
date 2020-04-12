@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @WebServlet(name = "CreateAdController", value = "/createAd")
@@ -45,10 +46,10 @@ public class CreateAdController extends HttpServlet {
 
     private Ad createAdFrom(User owner, Car car, String price){
         return Ad.builder()
-                .owner(owner)
+                .user(owner)
                 .car(car)
                 .price(Integer.parseInt(price))
-                .createdAt(LocalDateTime.now())
+                .createdAt(Timestamp.valueOf(LocalDateTime.now()))
                 .build();
     }
     private Car createCarFrom(String company, String model, String mileage, String year){

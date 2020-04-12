@@ -3,7 +3,7 @@ package com.sda.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @Entity(name = "Ads")
 @Data
@@ -16,23 +16,24 @@ public class Ad {
     private Integer id;
 
     @ManyToOne(targetEntity = User.class)
-    private User owner;
+    private User user;
 
     @OneToOne(targetEntity = Car.class)
     private Car car;
-    private Integer price;
-    private LocalDateTime createdAt;
 
-    public Ad(Integer id, User owner, Car car, Integer price, LocalDateTime createdAt) {
+    private Integer price;
+    private Timestamp createdAt;
+
+    public Ad(Integer id, User user, Car car, Integer price, Timestamp createdAt) {
         this.id = id;
-        this.owner = owner;
+        this.user = user;
         this.car = car;
         this.price = price;
         this.createdAt = createdAt;
     }
 
-    public Ad(User owner, Car car, Integer price, LocalDateTime createdAt) {
-        this.owner = owner;
+    public Ad(User user, Car car, Integer price, Timestamp createdAt) {
+        this.user = user;
         this.car = car;
         this.price = price;
         this.createdAt = createdAt;

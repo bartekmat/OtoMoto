@@ -95,15 +95,50 @@ public class AdRepository {
         Transaction transaction = session.beginTransaction();
         List<Ad> foundAds = new ArrayList<>();
         try {
-            foundAds = (List<Ad>) session.createQuery("from ads join cars where (cars.company = :company) and" +
-                                                                "(ads.price between :priceMin and :priceMax) and " +
-                                                                "(cars.mileage between :mileageMin and :mileageMax) and " +
-                                                                "(cars.year between :yearMin and :yearMax)")
+            foundAds = (List<Ad>) session.createQuery("select a from ads a join fetch a.car where " +
+                                                                "(a.car.company = :company) and "+
+                                                                "(a.price between :priceMin and :priceMax) and " +
+                                                                "(a.car.mileage between :mileageMin and :mileageMax) and " +
+                                                                "(a.car.year between :yearMin and :yearMax)")
                     .setParameter("company", company)
                     .setParameter("priceMin", minPrice)
                     .setParameter("priceMax", maxPrice)
                     .setParameter("mileageMin", minMileage)
-                    .setParameter("mileageMin", maxMileage)
+                    .setParameter("mileageMax", maxMileage)
+                    .setParameter("yearMin", minYear)
+                    .setParameter("yearMax", maxYear)
+                    .getResultList();
+            transaction.commit();
+        }catch (Exception e){
+            e.printStackTrace();
+            transaction.rollback();
+        }finally {
+            session.close();
+        }
+        return foundAds;
+    }
+    public List<Ad> getAdsFiltered(Integer minPrice,
+                                   Integer maxPrice,
+                                   Integer minMileage,
+                                   Integer maxMileage,
+                                   Integer minYear,
+                                   Integer maxYear,
+                                   String sort){
+
+        SessionFactory sessionFactory = HibernateUtil.getInstance();
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        List<Ad> foundAds = new ArrayList<>();
+        try {
+            foundAds = (List<Ad>) session.createQuery("select a from ads a join fetch a.car where " +
+                                                                "(a.price between :priceMin and :priceMax) and " +
+                                                                "(a.car.mileage between :mileageMin and :mileageMax) and " +
+                                                                "(a.car.year between :yearMin and :yearMax)")
+
+                    .setParameter("priceMin", minPrice)
+                    .setParameter("priceMax", maxPrice)
+                    .setParameter("mileageMin", minMileage)
+                    .setParameter("mileageMax", maxMileage)
                     .setParameter("yearMin", minYear)
                     .setParameter("yearMax", maxYear)
                     .getResultList();
@@ -123,7 +158,7 @@ public class AdRepository {
         Transaction transaction = session.beginTransaction();
         List<String> foundCompanies = new ArrayList<>();
         try {
-            foundCompanies = (List<String>) session.createQuery("select distinct cars.company from cars").getResultList();
+            foundCompanies = (List<String>) session.createQuery("select distinct c.company from cars c").getResultList();
             transaction.commit();
         }catch (Exception e){
             e.printStackTrace();

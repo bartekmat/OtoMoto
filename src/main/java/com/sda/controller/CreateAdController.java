@@ -16,6 +16,8 @@ import java.io.IOException;
 @WebServlet(name = "CreateAdController", value = "/createAd")
 public class CreateAdController extends HttpServlet {
 
+    private static final String INVALID_COMPANY_NAME_MESSAGE = "do not try this with me...";
+
     AdService adService = AdService.getInstance();
 
     @Override
@@ -26,21 +28,27 @@ public class CreateAdController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Ad newAdd = createAdFrom(
-                (User) request.getSession().getAttribute("user"),
-                createCarFrom(
-                        request.getParameter("company"),
-                        request.getParameter("model"),
-                        request.getParameter("mileage"),
-                        request.getParameter("year")
-                ),
-                request.getParameter("price")
-        );
+        if (request.getParameter("company").equalsIgnoreCase("any")){
+            request.setAttribute("companyNameError", INVALID_COMPANY_NAME_MESSAGE);
+            request.getRequestDispatcher("createAd.jsp").forward(request, response);
+        }else {
+            Ad newAdd = createAdFrom(
+                    (User) request.getSession().getAttribute("user"),
+                    createCarFrom(
+                            request.getParameter("company"),
+                            request.getParameter("model"),
+                            request.getParameter("mileage"),
+                            request.getParameter("year")
+                    ),
+                    request.getParameter("price")
+            );
 
-        adService.saveAd(newAdd);
+            adService.saveAd(newAdd);
 
-        request.getRequestDispatcher("home.jsp").forward(request,response);
-    }
+            request.getRequestDispatcher("home.jsp").forward(request,response);
+        }
+
+}
 
     private Ad createAdFrom(User owner, Car car, String price){
         return Ad.builder()

@@ -28,7 +28,11 @@ public class AdService {
     }
 
     public List<Ad> getAllAdsFiltered(Integer minPrice, Integer maxPrice, Integer minMileage, Integer maxMileage, Integer minYear, Integer maxYear, String company, String sort){
-        return adRepository.getAdsFiltered(minPrice, maxPrice, minMileage, maxMileage, minYear, maxYear, company, sort);
+        if (company.equals("any")){
+            return adRepository.getAdsFiltered(minPrice, maxPrice, minMileage, maxMileage, minYear, maxYear, sort);
+        }else {
+            return adRepository.getAdsFiltered(minPrice, maxPrice, minMileage, maxMileage, minYear, maxYear, company, sort);
+        }
     }
     public List<Ad> getAdsByUser(User user){
         System.out.println(adRepository.getAdsByUser(user));

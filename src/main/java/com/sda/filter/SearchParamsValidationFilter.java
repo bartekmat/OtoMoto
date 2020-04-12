@@ -16,11 +16,11 @@ public class SearchParamsValidationFilter implements Filter {
     private static final String MILEAGE_PARAMETERS_ERROR_MESSAGE = "invalid mileage parameters";
     private static final String YEAR_PARAMETERS_ERROR_MESSAGE = "invalid year parameters";
     private static final String MIN_PRICE_INIT = "0";
-    private static final String MAX_PRICE_INIT = String.valueOf(Integer.MAX_VALUE);
+    private static final String MAX_PRICE_INIT = "9999999";
     private static final String MIN_MILEAGE_INIT = "0";
-    private static final String MAX_MILEAGE_INIT = String.valueOf(Integer.MAX_VALUE);
+    private static final String MAX_MILEAGE_INIT = "9999999";
     private static final String MIN_YEAR_INIT = "0";
-    private static final String MAX_YEAR_INIT = String.valueOf(Integer.MAX_VALUE);
+    private static final String MAX_YEAR_INIT = "9999999";
     private static final String COMPANY_INIT = "any";
 
     private AdService adService = AdService.getInstance();

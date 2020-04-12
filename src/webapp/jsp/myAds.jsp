@@ -10,12 +10,16 @@
                     <img src="https://imageonthefly.autodatadirect.com/images/?USER=eDealer&PW=edealer872&IMG=USC80HOC011A021001.jpg&width=440&height=262" alt="Card image cap">
                     <div class="caption">
                         <h3>${ad.car.company} ${ad.car.model}</h3>
-                        <p>
-                        <p class="card-text">Mileage:  ${ad.car.mileage}</p>
-                        <p class="card-text">Year of production:  ${ad.car.year}</p><br/>
+                        <p class="card-text">
+                            Mileage:  ${ad.car.mileage}
                         </p>
-                        <p><a href="#" class="btn btn-primary" role="button"style="font-weight: bold; font-size: larger">${ad.price}$</a>
-                            <span style="text-align: right">posted by: ${ad.user.name} ${ad.user.surname}</span></p>
+                        <p class="card-text">
+                            Year of production:  ${ad.car.year}
+                        </p><br/>
+                        <p>
+                            <a href="#" class="btn btn-primary" role="button"style="font-weight: bold; font-size: larger">${ad.price}$</a>
+                            <span style="margin-left: 50px;">posted by: ${ad.user.name} ${ad.user.surname}</span>
+                        </p>
                     </div>
                 </div>
             </div>

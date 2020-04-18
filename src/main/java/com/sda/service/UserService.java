@@ -26,14 +26,8 @@ public class UserService {
         return userRepository.saveUser(user);
     }
 
-    public boolean loginUser(String email, String password, HttpServletRequest request){
-        Optional<User> user = userRepository.canLogin(email, password);
-        if (user.isPresent()){
-            request.getSession().setAttribute("user", user.get());
-            return true;
-        }else {
-            return false;
-        }
+    public Optional<User> loginUser(String email, String password){
+        return userRepository.canLogin(email, password);
     }
 
 

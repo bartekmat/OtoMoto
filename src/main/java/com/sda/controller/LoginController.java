@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 @WebServlet(name = "LoginController", value = "/login")
 public class LoginController extends HttpServlet {
@@ -27,11 +28,11 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        boolean loggedIn = userService.loginUser(
+        Optional<User> user = userService.loginUser(
                 req.getParameter("email"),
-                req.getParameter("password"),
-                req);
-        if(loggedIn) {
+                req.getParameter("password"));
+        if(user.isPresent()) {
+            req.getSession().setAttribute("user", user.get());
             req.getRequestDispatcher("home.jsp").forward(req,resp);
         } else {
             req.setAttribute("loginError", LOGIN_ERROR_MESSAGE);

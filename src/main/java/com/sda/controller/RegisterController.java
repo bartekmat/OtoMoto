@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 
 @WebServlet(name = "RegisterController", value = "/register")
 public class RegisterController extends HttpServlet {
@@ -40,6 +41,7 @@ public class RegisterController extends HttpServlet {
                 .surname(request.getParameter("surname"))
                 .email(request.getParameter("email"))
                 .password(request.getParameter("password"))
+                .ads(new ArrayList<>())
                 .isBlocked(false)
                 .build();
     }

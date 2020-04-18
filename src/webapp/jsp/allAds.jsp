@@ -59,6 +59,7 @@
 <c:forEach items="${ads}" var="ad">
         <div class="col-sm-6 col-md-4" style="float: left">
             <div class="thumbnail">
+                <a href="/observe?email=${sessionScope.user.email}&ad=${ad.id}">OBSERVE</a>
                 <img src="https://imageonthefly.autodatadirect.com/images/?USER=eDealer&PW=edealer872&IMG=USC80HOC011A021001.jpg&width=440&height=262" alt="Card image cap">
                 <div class="caption">
                     <h3>${ad.car.company} ${ad.car.model}</h3>

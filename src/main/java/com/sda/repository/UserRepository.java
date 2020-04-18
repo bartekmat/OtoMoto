@@ -1,5 +1,6 @@
 package com.sda.repository;
 
+import com.sda.model.Ad;
 import com.sda.model.User;
 import com.sda.requests.UserEditRequest;
 import com.sda.utils.HibernateUtil;
@@ -170,6 +171,41 @@ public class UserRepository {
             editedUser.setIsBlocked(true);
 
             session.persist(editedUser);
+            transaction.commit();
+        }catch (Exception e){
+            System.out.println("failed to edit user by login");
+            e.printStackTrace();
+            transaction.rollback();
+        }finally {
+            session.close();
+        }
+    }
+
+    public void updateObservedList(String email, String ad_id) {
+        System.out.println("email "+email);
+        System.out.println("ad id "+ad_id);
+
+        SessionFactory sessionFactory = HibernateUtil.getInstance();
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+        try {
+            User user = (User) session.createQuery("from users where email = :email")
+                    .setParameter("email", email)
+                    .getResultList().stream().findFirst().get();
+
+
+            Ad advert = (Ad) session.createQuery("from ads where id = :id")
+                    .setParameter("id", Integer.parseInt(ad_id))
+                    .getResultList().stream().findFirst().get();
+
+
+            List<Ad> observedAds = user.getAds();
+            observedAds.add(advert);
+
+            user.setAds(observedAds);
+            session.persist(user);
+
             transaction.commit();
         }catch (Exception e){
             System.out.println("failed to edit user by login");

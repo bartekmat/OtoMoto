@@ -35,4 +35,8 @@ public class UserService {
     public List<User> findAll() {
         return userRepository.getAllUsers();
     }
+
+    public void addObservedAd(String email, String ad_id) {
+        userRepository.updateObservedList(email, ad_id);
+    }
 }

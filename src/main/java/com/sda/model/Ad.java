@@ -1,9 +1,13 @@
 package com.sda.model;
 
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "ads")
 @Data
@@ -23,16 +27,22 @@ public class Ad {
 
     private Integer price;
 
-    public Ad(Integer id, User user, Car car, Integer price) {
+    @ManyToMany(mappedBy = "ads")
+    @JsonIgnore
+    private List<User> users = new ArrayList<>();
+
+    public Ad(Integer id, User user, Car car, Integer price, List<User> users) {
         this.id = id;
         this.user = user;
         this.car = car;
         this.price = price;
+        this.users = users;
     }
 
-    public Ad(User user, Car car, Integer price) {
+    public Ad(User user, Car car, Integer price, List<User> users) {
         this.user = user;
         this.car = car;
         this.price = price;
+        this.users = users;
     }
 }

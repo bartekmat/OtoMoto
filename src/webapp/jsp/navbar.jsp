@@ -12,9 +12,12 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a></li>
                 <li><a href="createAd">CREATE AD</a></li>
-                <li><a href="all">SHOW ALL ADS</a></li>
-                <li><a href="my">SHOW MY ADS</a></li>
-                <li><a href="users">SHOW MY ADS</a></li>
+                <li><a href="all">ALL ADS</a></li>
+                <li><a href="my">MY ADS</a></li>
+                <li><a href="observed">OBSERVED ADS</a></li>
+                <c:if test="${sessionScope.user.email.equals('admin@admin')}">
+                    <li><a href="users">USERS</a></li>
+                </c:if>
             </ul>
             <div class="navbar-header" style="float: right">
                 <div class="navbar-header">

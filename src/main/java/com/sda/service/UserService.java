@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -15,7 +16,7 @@ public class UserService {
 
     private UserRepository userRepository;
 
-    public static UserService userService(){
+    public static UserService getInstance(){
         if (userService == null){
             userService = new UserService(UserRepository.getInstance());
         }
@@ -31,7 +32,7 @@ public class UserService {
     }
 
 
-
-
-
+    public List<User> findAll() {
+        return userRepository.getAllUsers();
+    }
 }

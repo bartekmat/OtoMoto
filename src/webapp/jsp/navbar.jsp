@@ -11,9 +11,10 @@
         <c:if test="${sessionScope.user != null}">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a></li>
-                <li><a href="/createAd">CREATE AD</a></li>
-                <li><a href="/all">SHOW ALL ADS</a></li>
-                <li><a href="/my">SHOW MY ADS</a></li>
+                <li><a href="createAd">CREATE AD</a></li>
+                <li><a href="all">SHOW ALL ADS</a></li>
+                <li><a href="my">SHOW MY ADS</a></li>
+                <li><a href="users">SHOW MY ADS</a></li>
             </ul>
             <div class="navbar-header" style="float: right">
                 <div class="navbar-header">

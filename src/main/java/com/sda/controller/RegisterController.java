@@ -14,7 +14,7 @@ import java.io.IOException;
 @WebServlet(name = "RegisterController", value = "/register")
 public class RegisterController extends HttpServlet {
 
-    private UserService userService = UserService.userService();
+    private UserService userService = UserService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -40,6 +40,7 @@ public class RegisterController extends HttpServlet {
                 .surname(request.getParameter("surname"))
                 .email(request.getParameter("email"))
                 .password(request.getParameter("password"))
+                .isBlocked(false)
                 .build();
     }
 }

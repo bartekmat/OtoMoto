@@ -17,7 +17,7 @@ public class LoginController extends HttpServlet {
 
     private static final String LOGIN_ERROR_MESSAGE = "Wrong email or password";
 
-    private UserService userService = UserService.userService();
+    private UserService userService = UserService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

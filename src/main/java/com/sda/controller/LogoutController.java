@@ -12,7 +12,7 @@ import java.io.IOException;
 @WebServlet(name = "LogoutController", value = "/logout")
 public class LogoutController extends HttpServlet {
 
-    private UserService userService = UserService.userService();
+    private UserService userService = UserService.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

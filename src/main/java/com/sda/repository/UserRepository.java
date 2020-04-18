@@ -1,6 +1,7 @@
 package com.sda.repository;
 
 import com.sda.model.User;
+import com.sda.requests.UserEditRequest;
 import com.sda.utils.HibernateUtil;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -8,6 +9,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -68,25 +71,25 @@ public class UserRepository {
         }
         return user;
     }
-    //THIS METHOD IS NOT USED ANYWHERE BUT I KEEP IT IN CASE IT'S NEEDED
+  //  THIS METHOD IS NOT USED ANYWHERE BUT I KEEP IT IN CASE IT'S NEEDED
 
-//    public static List<User> getAllUsers(){
-//        SessionFactory sessionFactory = HibernateUtil.getInstance();
-//        Session session = sessionFactory.openSession();
-//        Transaction transaction = session.beginTransaction();
-//        List<User> foundUsers = new ArrayList<>();
-//        try {
-//            foundUsers = (List<User>) session.createQuery("from Users").getResultList();
-//            transaction.commit();
-//        }catch (Exception e){
-//            System.out.println("failed to load users");
-//            e.printStackTrace();
-//            transaction.rollback();
-//        }finally {
-//            session.close();
-//        }
-//        return foundUsers;
-//    }
+    public List<User> getAllUsers(){
+        SessionFactory sessionFactory = HibernateUtil.getInstance();
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        List<User> foundUsers = new ArrayList<>();
+        try {
+            foundUsers = (List<User>) session.createQuery("from users").getResultList();
+            transaction.commit();
+        }catch (Exception e){
+            System.out.println("failed to load users");
+            e.printStackTrace();
+            transaction.rollback();
+        }finally {
+            session.close();
+        }
+        return foundUsers;
+    }
 
     private Optional<User> getUserByEmailAndPass(String email, String password){
         SessionFactory sessionFactory = HibernateUtil.getInstance();
@@ -126,5 +129,54 @@ public class UserRepository {
             session.close();
         }
         return foundUser;
+    }
+    public Optional<User> editUserByEmail(UserEditRequest editRequest){
+        SessionFactory sessionFactory = HibernateUtil.getInstance();
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        Optional<User> foundUser = Optional.empty();
+        try {
+            foundUser = (Optional<User>) session.createQuery("from users where email = :email")
+                    .setParameter("email", editRequest.getEmail())
+                    .getResultList().stream().findFirst();
+
+            User editedUser = foundUser.get();
+            editedUser.setSurname(editRequest.getSurname());
+            editedUser.setName(editRequest.getName());
+
+            session.persist(editedUser);
+            transaction.commit();
+        }catch (Exception e){
+            System.out.println("failed to edit user by login");
+            e.printStackTrace();
+            transaction.rollback();
+        }finally {
+            session.close();
+        }
+        return foundUser;
+    }
+
+    public void blockUser(String email) {
+        SessionFactory sessionFactory = HibernateUtil.getInstance();
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        Optional<User> foundUser = Optional.empty();
+        try {
+            foundUser = (Optional<User>) session.createQuery("from users where email = :email")
+                    .setParameter("email", email)
+                    .getResultList().stream().findFirst();
+
+            User editedUser = foundUser.get();
+            editedUser.setIsBlocked(true);
+
+            session.persist(editedUser);
+            transaction.commit();
+        }catch (Exception e){
+            System.out.println("failed to edit user by login");
+            e.printStackTrace();
+            transaction.rollback();
+        }finally {
+            session.close();
+        }
     }
 }

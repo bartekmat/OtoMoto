@@ -22,7 +22,7 @@ public class CreateAdController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("createAd.jsp");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/createAd.jsp");
         requestDispatcher.forward(request,response);
     }
 

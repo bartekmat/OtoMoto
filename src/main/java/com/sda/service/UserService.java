@@ -1,5 +1,6 @@
 package com.sda.service;
 
+import com.sda.model.Ad;
 import com.sda.model.User;
 import com.sda.repository.UserRepository;
 import lombok.AccessLevel;
@@ -36,7 +37,7 @@ public class UserService {
         return userRepository.getAllUsers();
     }
 
-    public void addObservedAd(String email, String ad_id) {
-        userRepository.updateObservedList(email, ad_id);
+    public List<Ad> addObservedAd(String email, String ad_id) {
+        return userRepository.updateObservedList(email, ad_id);
     }
 }

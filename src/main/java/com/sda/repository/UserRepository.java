@@ -181,7 +181,7 @@ public class UserRepository {
         }
     }
 
-    public void updateObservedList(String email, String ad_id) {
+    public List<Ad> updateObservedList(String email, String ad_id) {
         System.out.println("email "+email);
         System.out.println("ad id "+ad_id);
 
@@ -189,6 +189,7 @@ public class UserRepository {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
 
+        List<Ad> observedAds = new ArrayList<>();
         try {
             User user = (User) session.createQuery("from users where email = :email")
                     .setParameter("email", email)
@@ -200,7 +201,7 @@ public class UserRepository {
                     .getResultList().stream().findFirst().get();
 
 
-            List<Ad> observedAds = user.getAds();
+            observedAds = user.getAds();
             observedAds.add(advert);
 
             user.setAds(observedAds);
@@ -214,5 +215,6 @@ public class UserRepository {
         }finally {
             session.close();
         }
+        return List.copyOf(observedAds);
     }
 }

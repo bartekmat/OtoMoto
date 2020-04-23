@@ -18,7 +18,8 @@ public class MyAdsController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("myAds", adService.getAdsByUser((User) request.getSession().getAttribute("user")));
+        User currentUser = (User) request.getSession().getAttribute("user");
+        request.setAttribute("myAds", adService.getAdsByUser(currentUser.getId()));
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("myAds.jsp");
         requestDispatcher.forward(request,response);
     }

@@ -46,8 +46,8 @@ public class AdService {
         return foundAds;
     }
 
-    public List<Ad> getAdsByUser(User user){
-        return adRepository.getAdsByUser(user);
+    public List<Ad> getAdsByUser(Integer userId){
+        return adRepository.getAdsByUser(userId);
     }
 
     public List<String> getAllCompanies() {

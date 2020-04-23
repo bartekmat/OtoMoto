@@ -23,18 +23,6 @@ public class AdRepository {
     public static AdRepository getInstance(){
         if(adRepository == null){
             adRepository = new AdRepository(UserRepository.getInstance());
-//            Ad ad1 = new Ad(UserRepository.getInstance().getUserById(1), new Car("Toyota", "Corolla", 90000, 2004), 5500, Timestamp.valueOf(LocalDateTime.now()));
-//            Ad ad2 = new Ad(UserRepository.getInstance().getUserById(1), new Car("Toyota", "Auris", 45000, 2014), 7500, Timestamp.valueOf(LocalDateTime.now()));
-//            Ad ad3 = new Ad(UserRepository.getInstance().getUserById(1), new Car("Honda", "Civic", 120000, 2009), 16000, Timestamp.valueOf(LocalDateTime.now()));
-//            Ad ad4 = new Ad(UserRepository.getInstance().getUserById(1), new Car("Opel", "Astra", 72000, 2010), 1100, Timestamp.valueOf(LocalDateTime.now()));
-//            Ad ad5 = new Ad(UserRepository.getInstance().getUserById(1), new Car("Hyundai", "i30", 50000, 2017), 45000, Timestamp.valueOf(LocalDateTime.now()));
-//            Ad ad6 = new Ad(UserRepository.getInstance().getUserById(1), new Car("Honda", "Civic", 205000, 2006), 9000, Timestamp.valueOf(LocalDateTime.now()));
-//            adRepository.saveAd(ad1);
-//            adRepository.saveAd(ad2);
-//            adRepository.saveAd(ad3);
-//            adRepository.saveAd(ad4);
-//            adRepository.saveAd(ad5);
-//            adRepository.saveAd(ad6);
         }
         return adRepository;
     }
@@ -62,26 +50,6 @@ public class AdRepository {
         return true;
     }
 
-    public List<Ad> getAdsByUser(User user){
-        SessionFactory sessionFactory = HibernateUtil.getInstance();
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        List<Ad> foundAds = new ArrayList<>();
-        try {
-            Integer userId = userRepository.getUserByEmail(user.getEmail()).get().getId();
-            foundAds = (List<Ad>) session.createQuery("from ads where user_id = :id")
-                    .setParameter("id", userId)
-                    .getResultList();
-            transaction.commit();
-        }catch (Exception e){
-            System.out.println("failed to save user "+user.getSurname());
-            e.printStackTrace();
-            transaction.rollback();
-        }finally {
-            session.close();
-        }
-        return foundAds;
-    }
     public List<Ad> getAdsFiltered(GetFilteredRequest request, String company){
 
         SessionFactory sessionFactory = HibernateUtil.getInstance();
@@ -111,6 +79,7 @@ public class AdRepository {
         }
         return foundAds;
     }
+
     public List<Ad> getAdsFiltered(GetFilteredRequest request){
 
         SessionFactory sessionFactory = HibernateUtil.getInstance();
@@ -140,13 +109,15 @@ public class AdRepository {
         return foundAds;
     }
 
-    public List<String> getAllCompanies() {
+    public List<Ad> getAdsByUser(Integer userId){
         SessionFactory sessionFactory = HibernateUtil.getInstance();
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        List<String> foundCompanies = new ArrayList<>();
+        List<Ad> foundAds = new ArrayList<>();
         try {
-            foundCompanies = (List<String>) session.createQuery("select distinct c.company from cars c").getResultList();
+            foundAds = (List<Ad>) session.createQuery("from ads where user_id = :id")
+                    .setParameter("id", userId)
+                    .getResultList();
             transaction.commit();
         }catch (Exception e){
             e.printStackTrace();
@@ -154,7 +125,7 @@ public class AdRepository {
         }finally {
             session.close();
         }
-        return foundCompanies;
+        return foundAds;
     }
 
     public List<Ad> getObservedAdsByUser(Integer userId) {
@@ -174,5 +145,22 @@ public class AdRepository {
             session.close();
         }
         return observedAds;
+    }
+
+    public List<String> getAllCompanies() {
+        SessionFactory sessionFactory = HibernateUtil.getInstance();
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        List<String> foundCompanies = new ArrayList<>();
+        try {
+            foundCompanies = (List<String>) session.createQuery("select distinct c.company from cars c").getResultList();
+            transaction.commit();
+        }catch (Exception e){
+            e.printStackTrace();
+            transaction.rollback();
+        }finally {
+            session.close();
+        }
+        return foundCompanies;
     }
 }

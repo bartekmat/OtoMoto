@@ -2,6 +2,7 @@ package com.sda.repository;
 
 import com.sda.model.Ad;
 import com.sda.model.User;
+import com.sda.request.GetFilteredRequest;
 import com.sda.utils.HibernateUtil;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -81,14 +82,7 @@ public class AdRepository {
         }
         return foundAds;
     }
-    public List<Ad> getAdsFiltered(Integer minPrice,
-                                   Integer maxPrice,
-                                   Integer minMileage,
-                                   Integer maxMileage,
-                                   Integer minYear,
-                                   Integer maxYear,
-                                   String company,
-                                   String sort){
+    public List<Ad> getAdsFiltered(GetFilteredRequest request, String company){
 
         SessionFactory sessionFactory = HibernateUtil.getInstance();
         Session session = sessionFactory.openSession();
@@ -101,12 +95,12 @@ public class AdRepository {
                                                                 "(a.car.mileage between :mileageMin and :mileageMax) and " +
                                                                 "(a.car.year between :yearMin and :yearMax)")
                     .setParameter("company", company)
-                    .setParameter("priceMin", minPrice)
-                    .setParameter("priceMax", maxPrice)
-                    .setParameter("mileageMin", minMileage)
-                    .setParameter("mileageMax", maxMileage)
-                    .setParameter("yearMin", minYear)
-                    .setParameter("yearMax", maxYear)
+                    .setParameter("priceMin", request.getMinPrice())
+                    .setParameter("priceMax", request.getMaxPrice())
+                    .setParameter("mileageMin", request.getMinMileage())
+                    .setParameter("mileageMax", request.getMaxMileage())
+                    .setParameter("yearMin", request.getMinYear())
+                    .setParameter("yearMax", request.getMaxYear())
                     .getResultList();
             transaction.commit();
         }catch (Exception e){
@@ -117,13 +111,7 @@ public class AdRepository {
         }
         return foundAds;
     }
-    public List<Ad> getAdsFiltered(Integer minPrice,
-                                   Integer maxPrice,
-                                   Integer minMileage,
-                                   Integer maxMileage,
-                                   Integer minYear,
-                                   Integer maxYear,
-                                   String sort){
+    public List<Ad> getAdsFiltered(GetFilteredRequest request){
 
         SessionFactory sessionFactory = HibernateUtil.getInstance();
         Session session = sessionFactory.openSession();
@@ -135,12 +123,12 @@ public class AdRepository {
                                                                 "(a.car.mileage between :mileageMin and :mileageMax) and " +
                                                                 "(a.car.year between :yearMin and :yearMax)")
 
-                    .setParameter("priceMin", minPrice)
-                    .setParameter("priceMax", maxPrice)
-                    .setParameter("mileageMin", minMileage)
-                    .setParameter("mileageMax", maxMileage)
-                    .setParameter("yearMin", minYear)
-                    .setParameter("yearMax", maxYear)
+                    .setParameter("priceMin", request.getMinPrice())
+                    .setParameter("priceMax", request.getMaxPrice())
+                    .setParameter("mileageMin", request.getMinMileage())
+                    .setParameter("mileageMax", request.getMaxMileage())
+                    .setParameter("yearMin", request.getMinYear())
+                    .setParameter("yearMax", request.getMaxYear())
                     .getResultList();
             transaction.commit();
         }catch (Exception e){

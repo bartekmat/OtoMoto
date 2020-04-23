@@ -3,6 +3,7 @@ package com.sda.service;
 import com.sda.model.Ad;
 import com.sda.model.User;
 import com.sda.repository.AdRepository;
+import com.sda.request.GetFilteredRequest;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 
@@ -27,11 +28,11 @@ public class AdService {
         adRepository.saveAd(ad);
     }
 
-    public List<Ad> getAllAdsFiltered(Integer minPrice, Integer maxPrice, Integer minMileage, Integer maxMileage, Integer minYear, Integer maxYear, String company, String sort){
-        if (company.equals("any")){
-            return adRepository.getAdsFiltered(minPrice, maxPrice, minMileage, maxMileage, minYear, maxYear, sort);
+    public List<Ad> getAllAdsFiltered(GetFilteredRequest request){
+        if (request.getCompany().equals("any")){
+            return adRepository.getAdsFiltered(request);
         }else {
-            return adRepository.getAdsFiltered(minPrice, maxPrice, minMileage, maxMileage, minYear, maxYear, company, sort);
+            return adRepository.getAdsFiltered(request, request.getCompany());
         }
     }
     public List<Ad> getAdsByUser(User user){

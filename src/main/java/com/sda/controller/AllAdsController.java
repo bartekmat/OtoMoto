@@ -1,5 +1,6 @@
 package com.sda.controller;
 
+import com.sda.request.GetFilteredRequest;
 import com.sda.service.AdService;
 
 import javax.servlet.RequestDispatcher;
@@ -11,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name = "ShowAllAdsController", value = "/all")
-public class ShowAllAdsController extends HttpServlet {
+public class AllAdsController extends HttpServlet {
 
     private AdService adService = AdService.getInstance();
 
@@ -32,14 +33,17 @@ public class ShowAllAdsController extends HttpServlet {
         //if we get here we can savely call search - all parameters should be valid
         //during first loading or without parameters set my user all are set to initial value
         request.setAttribute("ads", adService.getAllAdsFiltered(
-                        minPrice, 
-                        maxPrice, 
-                        minMileage, 
-                        maxMileage, 
-                        minYear, 
-                        maxYear, 
-                        company, 
-                        sort));
+                GetFilteredRequest.builder()
+                        .company(company)
+                        .minPrice(minPrice)
+                        .maxPrice(maxPrice)
+                        .minMileage(minMileage)
+                        .maxMileage(maxMileage)
+                        .minYear(minYear)
+                        .maxYear(maxYear)
+                        .sort(sort)
+                .build()
+        ));
 
         request.setAttribute("companies", adService.getAllCompanies());
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("allAds.jsp");

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name = "ShowMyAdsController", value = "/my")
-public class ShowMyAdsController extends HttpServlet {
+public class MyAdsController extends HttpServlet {
 
     private AdService adService = AdService.getInstance();
 

@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @WebServlet(name = "ObserveController", value = "/observe")
-public class ObserveController extends HttpServlet {
+public class ObserveAdController extends HttpServlet {
 
     UserService userService = UserService.getInstance();
     @Override

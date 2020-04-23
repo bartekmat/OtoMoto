@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet(name = "ShowAllAdsController", value = "/all")
-public class AllAdsController extends HttpServlet {
+public class ShowAllAdsController extends HttpServlet {
 
     private AdService adService = AdService.getInstance();
 

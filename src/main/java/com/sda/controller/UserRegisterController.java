@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 @WebServlet(name = "RegisterController", value = "/register")
-public class RegisterController extends HttpServlet {
+public class UserRegisterController extends HttpServlet {
 
     private UserService userService = UserService.getInstance();
 

@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet(name = "UsersController", value = "/users")
-public class UsersController extends HttpServlet {
+public class ShowUsersController extends HttpServlet {
 
     private UserService userService = UserService.getInstance();
 

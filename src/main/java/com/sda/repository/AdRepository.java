@@ -1,7 +1,6 @@
 package com.sda.repository;
 
 import com.sda.model.Ad;
-import com.sda.model.User;
 import com.sda.request.GetFilteredRequest;
 import com.sda.utils.HibernateUtil;
 import lombok.AccessLevel;

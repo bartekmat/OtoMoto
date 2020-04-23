@@ -8,7 +8,6 @@ import com.sda.request.GetFilteredRequest;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

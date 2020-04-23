@@ -56,22 +56,22 @@
         </form>
     </div>
     <div class="row">
-<c:forEach items="${ads}" var="ad">
+<c:forEach items="${ads}" var="dto">
         <div class="col-sm-6 col-md-4" style="float: left">
             <div class="thumbnail">
-                <a href="/observe?email=${sessionScope.user.email}&ad=${ad.id}">OBSERVE</a>
+                <a href="/observe?email=${sessionScope.user.email}&ad=${dto.ad.id}">OBSERVE</a>
                 <img src="https://imageonthefly.autodatadirect.com/images/?USER=eDealer&PW=edealer872&IMG=USC80HOC011A021001.jpg&width=440&height=262" alt="Card image cap">
                 <div class="caption">
-                    <h3>${ad.car.company} ${ad.car.model}</h3>
+                    <h3>${dto.ad.car.company} ${dto.ad.car.model}</h3>
                         <p class="card-text">
-                            Mileage:  ${ad.car.mileage}
+                            Mileage:  ${dto.ad.car.mileage}
                         </p>
                         <p class="card-text">
-                            Year of production:  ${ad.car.year}
+                            Year of production:  ${dto.ad.car.year}
                         </p><br/>
                         <p>
-                            <a href="#" class="btn btn-primary" role="button"style="font-weight: bold; font-size: larger">${ad.price}$</a>
-                            <span style="margin-left: 50px;">posted by: ${ad.user.name} ${ad.user.surname}</span>
+                            <a href="#" class="btn btn-primary" role="button"style="font-weight: bold; font-size: larger">${dto.ad.price}$</a>
+                            <span style="margin-left: 50px;">posted by: ${dto.ad.user.name} ${dto.ad.user.surname}</span>
                         </p>
                 </div>
             </div>

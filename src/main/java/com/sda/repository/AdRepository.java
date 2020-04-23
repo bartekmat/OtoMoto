@@ -156,4 +156,23 @@ public class AdRepository {
         }
         return foundCompanies;
     }
+
+    public List<Ad> getObservedAdsByUser(Integer userId) {
+        SessionFactory sessionFactory = HibernateUtil.getInstance();
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        List<Ad> observedAds = new ArrayList<>();
+        try {
+            observedAds = (List<Ad>) session.createQuery("select u.ads from users u where u.id=:id")
+                    .setParameter("id",userId)
+                    .getResultList();
+            transaction.commit();
+        }catch (Exception e){
+            e.printStackTrace();
+            transaction.rollback();
+        }finally {
+            session.close();
+        }
+        return observedAds;
+    }
 }

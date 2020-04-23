@@ -9,4 +9,8 @@ import lombok.Data;
 public class AdDTO {
     private Ad ad;
     private boolean isObservedByCurrentUser;
+
+    public AdDTO(Ad ad) {
+        this.ad = ad;
+    }
 }

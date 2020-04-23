@@ -1,5 +1,7 @@
 package com.sda.controller;
 
+import com.sda.DTO.AdDTO;
+import com.sda.model.User;
 import com.sda.request.GetFilteredRequest;
 import com.sda.service.AdService;
 
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(name = "ShowAllAdsController", value = "/all")
 public class AllAdsController extends HttpServlet {
@@ -30,9 +33,11 @@ public class AllAdsController extends HttpServlet {
         String company = (String) request.getAttribute("company");
         String sort = "random";
 
+        User currentUser = (User) request.getSession().getAttribute("user");
+
         //if we get here we can savely call search - all parameters should be valid
         //during first loading or without parameters set my user all are set to initial value
-        request.setAttribute("ads", adService.getAllAdsFiltered(
+        List<AdDTO> allAdsFiltered = adService.getAllAdsFiltered(
                 GetFilteredRequest.builder()
                         .company(company)
                         .minPrice(minPrice)
@@ -42,8 +47,11 @@ public class AllAdsController extends HttpServlet {
                         .minYear(minYear)
                         .maxYear(maxYear)
                         .sort(sort)
-                .build()
-        ));
+                        .build(), currentUser
+        );
+        request.setAttribute("ads", allAdsFiltered);
+
+        System.out.println("found "+allAdsFiltered.size());
 
         request.setAttribute("companies", adService.getAllCompanies());
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("allAds.jsp");

@@ -59,7 +59,17 @@
 <c:forEach items="${ads}" var="dto">
         <div class="col-sm-6 col-md-4" style="float: left">
             <div class="thumbnail">
-                <a href="/observe?email=${sessionScope.user.email}&ad=${dto.ad.id}">OBSERVE</a>
+                <c:if test="${dto.isObservedByCurrentUser == true}">
+                    <a href="/observe?email=${sessionScope.user.email}&ad=${dto.ad.id}">
+                        <img src="https://img.icons8.com/ios/50/000000/christmas-star.png" class="star"/>
+                    </a>
+                </c:if>
+                <c:if test="${dto.isObservedByCurrentUser == false}">
+                <a href="/stopObserve?email=${sessionScope.user.email}&ad=${dto.ad.id}">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png" class="star"/>
+                </a>
+
+                </c:if>
                 <img src="https://imageonthefly.autodatadirect.com/images/?USER=eDealer&PW=edealer872&IMG=USC80HOC011A021001.jpg&width=440&height=262" alt="Card image cap">
                 <div class="caption">
                     <h3>${dto.ad.car.company} ${dto.ad.car.model}</h3>

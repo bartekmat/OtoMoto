@@ -8,9 +8,17 @@ import lombok.Data;
 @AllArgsConstructor
 public class AdDTO {
     private Ad ad;
-    private boolean isObservedByCurrentUser;
+    private Boolean isObservedByCurrentUser;
 
     public AdDTO(Ad ad) {
         this.ad = ad;
+    }
+
+    public Boolean getObservedByCurrentUser() {
+        return isObservedByCurrentUser;
+    }
+
+    public void setObservedByCurrentUser(Boolean observedByCurrentUser) {
+        isObservedByCurrentUser = observedByCurrentUser;
     }
 }

@@ -1,6 +1,7 @@
 package com.sda.repository;
 
 import com.sda.model.Ad;
+import com.sda.model.User;
 import com.sda.request.GetFilteredRequest;
 import com.sda.utils.HibernateUtil;
 import lombok.AccessLevel;
@@ -17,11 +18,10 @@ public class AdRepository {
 
     private static AdRepository adRepository;
 
-    private UserRepository userRepository;
 
     public static AdRepository getInstance(){
         if(adRepository == null){
-            adRepository = new AdRepository(UserRepository.getInstance());
+            adRepository = new AdRepository();
         }
         return adRepository;
     }
@@ -144,6 +144,73 @@ public class AdRepository {
             session.close();
         }
         return observedAds;
+    }
+
+    public List<Ad> addToObservedList(String email, String ad_id) {
+        SessionFactory sessionFactory = HibernateUtil.getInstance();
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+        List<Ad> observedAds = new ArrayList<>();
+        try {
+            User user = (User) session.createQuery("from users where email = :email")
+                    .setParameter("email", email)
+                    .getResultList().stream().findFirst().get();
+
+
+            Ad advert = (Ad) session.createQuery("from ads where id = :id")
+                    .setParameter("id", Integer.parseInt(ad_id))
+                    .getResultList().stream().findFirst().get();
+
+
+            observedAds=user.getAds();
+            observedAds.add(advert);
+
+            user.setAds(observedAds);
+            session.persist(user);
+
+            transaction.commit();
+        }catch (Exception e){
+            System.out.println("failed to edit user by login");
+            e.printStackTrace();
+            transaction.rollback();
+        }finally {
+            session.close();
+        }
+        return List.copyOf(observedAds);
+    }
+
+    public void removeFromObservedList(String email, String ad_id) {
+        SessionFactory sessionFactory = HibernateUtil.getInstance();
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+        List<Ad> observedAds = new ArrayList<>();
+        try {
+            User user = (User) session.createQuery("from users where email = :email")
+                    .setParameter("email", email)
+                    .getResultList().stream().findFirst().get();
+
+
+            Ad advert = (Ad) session.createQuery("from ads where id = :id")
+                    .setParameter("id", Integer.parseInt(ad_id))
+                    .getResultList().stream().findFirst().get();
+
+
+            observedAds=user.getAds();
+            observedAds.remove(advert);
+
+            user.setAds(observedAds);
+            session.persist(user);
+
+            transaction.commit();
+        }catch (Exception e){
+            System.out.println("failed to edit user by login");
+            e.printStackTrace();
+            transaction.rollback();
+        }finally {
+            session.close();
+        }
     }
 
     public List<String> getAllCompanies() {

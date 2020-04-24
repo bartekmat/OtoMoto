@@ -56,9 +56,9 @@ public class AdService {
     private AdDTO checkIsObserved(Ad ad, List<Ad> observedAds){
         AdDTO adDTO = new AdDTO(ad);
         if (observedAds.contains(ad)){
-            adDTO.setObservedByCurrentUser(true);
-        }else {
             adDTO.setObservedByCurrentUser(false);
+        }else {
+            adDTO.setObservedByCurrentUser(true);
         }return adDTO;
     }
 }

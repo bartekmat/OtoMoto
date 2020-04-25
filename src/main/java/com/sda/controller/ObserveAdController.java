@@ -13,6 +13,7 @@ import java.io.IOException;
 public class ObserveAdController extends HttpServlet {
 
     UserService userService = UserService.getInstance();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");

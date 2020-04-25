@@ -1,6 +1,5 @@
 package com.sda.repository;
 
-import com.sda.model.Ad;
 import com.sda.model.User;
 import com.sda.requests.UserEditRequest;
 import com.sda.utils.HibernateUtil;

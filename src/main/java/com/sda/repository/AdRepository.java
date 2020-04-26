@@ -33,13 +33,12 @@ public class AdRepository {
         Transaction transaction = session.beginTransaction();
 
         try {
-            System.out.println("Saved ad "+ad);
             session.persist(ad.getCar());
             session.flush();
             session.persist(ad);
             transaction.commit();
         }catch (Exception e){
-            System.out.println("failed to save ad of "+ad.getCar().getCompany()+" "+ad.getCar().getModel());
+
             e.printStackTrace();
             transaction.rollback();
             return false;

@@ -23,7 +23,7 @@
                 <div class="navbar-header">
                     Welcome ${user.name}!
                 </div>
-                <form method="post" action="/logout">
+                <form method="post" action="logout">
                     <input type="submit" value="LOGOUT">
                 </form>
             </div>
@@ -31,12 +31,12 @@
         <c:if test="${sessionScope.user == null}">
 
             <ul class="nav navbar-nav">
-                <li><a href="/register">Register</a></li>
+                <li><a href="register">Register</a></li>
             </ul>
 
             <div class="navbar-header" style="float: right">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="/login">Login</a>
+                    <a class="navbar-brand" href="login">Login</a>
                 </div>
             </div>
         </c:if>

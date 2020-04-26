@@ -28,10 +28,10 @@
                             <td>${user.surname}</td>
                             <td>${user.email}</td>
                             <td>
-                                <a href="/editUser?email=${user.email}">Edit</a>
+                                <a href="editUser?email=${user.email}">Edit</a>
                             </td>
                             <td>
-                                <a href="/blockUser?email=${user.email}">Block</a>
+                                <a href="blockUser?email=${user.email}">Block</a>
                             </td>
                         </tr>
                     </c:forEach>

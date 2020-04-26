@@ -16,9 +16,9 @@ public class AccessFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) res;
 
         HttpSession session = request.getSession(false); //do not create new session if there is none, just check
-        String homeURI = "/";
-        String loginURI = "/login";
-        String registerURI = "/register";
+        String homeURI = request.getContextPath()+"/";
+        String loginURI = request.getContextPath()+"/login";
+        String registerURI = request.getContextPath()+"/register";
 
         boolean loggedIn = session != null && session.getAttribute("user") != null;
         boolean homeRequest = request.getRequestURI().equals(homeURI);
@@ -26,9 +26,11 @@ public class AccessFilter implements Filter {
         boolean registerRequest = request.getRequestURI().equals(registerURI);
 
         if (loggedIn || homeRequest || loginRequest || registerRequest) {
+            System.out.println("filter success");
             chain.doFilter(request, response);
         } else {
-            response.sendRedirect("/login");
+            System.out.println("failed");
+            response.sendRedirect(request.getContextPath()+"/login");
         }
     }
 

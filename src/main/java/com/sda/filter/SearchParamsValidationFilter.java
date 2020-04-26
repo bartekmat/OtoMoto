@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,7 +55,7 @@ public class SearchParamsValidationFilter implements Filter {
             request.setAttribute("companies", adService.getAllCompanies());
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("allAds.jsp");
             requestDispatcher.forward(request,response);
-            request.setAttribute("ads", List.of());
+            request.setAttribute("ads", new ArrayList<>());
         }
         filterChain.doFilter(request,response);
     }
@@ -65,10 +66,10 @@ public class SearchParamsValidationFilter implements Filter {
     }
 
     private boolean validateParams(String parameterName, String min, String max, String minInit, String maxInit, String errorMessage, HttpServletRequest request){
-        if (min.isBlank()){
+        if (min.isEmpty()){
             min = minInit;
         }
-        if (max.isBlank()){
+        if (max.isEmpty()){
             max = maxInit;
         }
         if (areValidNumbers(min, max)){

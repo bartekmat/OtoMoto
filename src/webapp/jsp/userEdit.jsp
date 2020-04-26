@@ -12,7 +12,7 @@
             </c:if>
         </div>
         <div>
-            <form method="post" action="/editUser">
+            <form method="post" action="editUser">
                 <h2>Fill in the data:</h2>
                 <div class="form-group">
                     <label for="name">Name:</label>

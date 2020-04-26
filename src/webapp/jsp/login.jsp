@@ -6,7 +6,7 @@
 
 <div class="container">
     <div class="login-form">
-        <form action="/login" method="post">
+        <form action="login" method="post">
             <h2 class="text-center">Log in</h2>
             <div class="form-group" style="color: #df4930">
                 <c:if test="${not empty requestScope.loginError}" >
@@ -26,7 +26,7 @@
             <div class="form-group">
                 <button type="submit" class="btn btn-primary login-btn btn-block" style="border-radius: 5px">Log in</button>
             </div>
-            <p class="text-center">Don't have an account yet? <a href="/register">Sign up here!</a></p>
+            <p class="text-center">Don't have an account yet? <a href="register">Sign up here!</a></p>
         </form>
 
     </div>

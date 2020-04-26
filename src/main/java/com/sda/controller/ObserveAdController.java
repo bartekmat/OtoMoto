@@ -21,6 +21,6 @@ public class ObserveAdController extends HttpServlet {
 
         userService.addObservedAd(email, ad_id);
 
-        response.sendRedirect("/all");
+        response.sendRedirect(request.getContextPath()+"/all");
     }
 }

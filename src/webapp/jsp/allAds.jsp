@@ -7,7 +7,7 @@
 <div class="container">
     <div class="thumbnail" style="padding: 20px">
 <%--        filters--%>
-        <form method="get" action="/all">
+        <form method="get" action="all">
             <div style="color: #df4930">
                 <c:if test="${not empty requestScope.filterError}" >
                     ${requestScope.filterError}<br/>
@@ -60,12 +60,12 @@
         <div class="col-sm-6 col-md-4" style="float: left">
             <div class="thumbnail">
                 <c:if test="${dto.isObservedByCurrentUser == true}">
-                    <a href="/observe?email=${sessionScope.user.email}&ad=${dto.ad.id}">
+                    <a href="observe?email=${sessionScope.user.email}&ad=${dto.ad.id}">
                         <img src="https://img.icons8.com/ios/50/000000/christmas-star.png" class="star"/>
                     </a>
                 </c:if>
                 <c:if test="${dto.isObservedByCurrentUser == false}">
-                <a href="/stopObserve?email=${sessionScope.user.email}&ad=${dto.ad.id}">
+                <a href="stopObserve?email=${sessionScope.user.email}&ad=${dto.ad.id}">
                     <img src="https://img.icons8.com/ios-filled/50/000000/christmas-star.png" class="star"/>
                 </a>
 

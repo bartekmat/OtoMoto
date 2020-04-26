@@ -18,6 +18,6 @@ public class UserBlockController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
         userRepository.blockUser(email);
-        response.sendRedirect("/users");
+        response.sendRedirect(request.getContextPath()+"/users");
     }
 }

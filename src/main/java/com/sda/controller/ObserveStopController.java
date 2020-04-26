@@ -23,6 +23,6 @@ public class ObserveStopController extends HttpServlet {
 
         userService.removeObservedAd(email, ad_id);
 
-        response.sendRedirect("/all");
+        response.sendRedirect(request.getContextPath()+"/all");
     }
 }

@@ -2,6 +2,7 @@
 <%@ page language="java" pageEncoding="UTF-8" contentType="text/html" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><html lang="en">
 <head>
+    <base href="http://localhost:8080/Otomoto/">
     <title>Otomoto page</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">

@@ -177,7 +177,7 @@ public class AdRepository {
         }finally {
             session.close();
         }
-        return List.copyOf(observedAds);
+        return new ArrayList<>(observedAds);
     }
 
     public void removeFromObservedList(String email, String ad_id) {

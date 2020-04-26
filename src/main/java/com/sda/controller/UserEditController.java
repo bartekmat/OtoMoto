@@ -18,7 +18,6 @@ public class UserEditController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
-        System.out.println("doget "+email);
         request.setAttribute("editedUsersEmail", email);
         request.getRequestDispatcher("userEdit.jsp").forward(request,response);
     }
@@ -32,6 +31,6 @@ public class UserEditController extends HttpServlet {
         UserEditRequest editRequest = new UserEditRequest(name, surname, editedUsersEmail);
 
         userRepository.editUserByEmail(editRequest);
-        response.sendRedirect("/users");
+        response.sendRedirect(request.getContextPath()+"/users");
     }
 }

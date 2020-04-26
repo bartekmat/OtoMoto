@@ -11,7 +11,7 @@
                  ${requestScope.companyNameError}
             </c:if>
         </div>
-        <form method="post" action="/createAd">
+        <form method="post" action="createAd">
             <h2>Fill in the data:</h2>
             <div class="form-group">
                 <label for="company">Company:</label>
